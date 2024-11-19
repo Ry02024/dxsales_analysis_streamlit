@@ -29,7 +29,7 @@ st.write(rfm_data.head())
 
 # RFMスコアと発注データの結合
 st.title("RFMスコアと発注データの結合")
-rfm_analysis = test_data.merge(rfm_data, on=["店舗ID"], how="left")
+rfm_analysis = test_data.merge(rfm_data, on=['店舗ID', '商品ID'], how='left')
 
 # デバッグ: 結合後のデータを確認
 st.title("結合後のデータ:")
