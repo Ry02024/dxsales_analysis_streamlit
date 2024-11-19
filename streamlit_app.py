@@ -35,10 +35,6 @@ rfm_analysis = test_data.merge(rfm_data, on=['店舗ID', '商品ID'], how='left'
 st.title("結合後のデータ:")
 st.write(rfm_analysis.head())
 
-# RFMスコア別カテゴリのヒートマップ
-rfm_analysis['商品ID'] = rfm_analysis['商品ID_x']
-rfm_analysis = rfm_analysis.drop(columns=['商品ID_x', '商品ID_y'])
-
 st.write(rfm_analysis.head())
 # item_dataを使用して商品カテゴリIDを結合
 rfm_analysis = rfm_analysis.merge(
