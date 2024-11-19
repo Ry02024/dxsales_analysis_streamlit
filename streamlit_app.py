@@ -58,5 +58,6 @@ st.pyplot(fig_heatmap)  # Streamlitで図を描画
 
 # 高スコア vs 低スコアの比較を表示
 st.write("高RFMスコア商品 vs. 低RFMスコア商品の平均発注量")
+rfm_analysis = rfm_analysis.dropna(subset=["RFMスコア"])
 fig_comparison = compare_high_low_rfm(rfm_analysis)  # Matplotlibの図を作成
 st.pyplot(fig_comparison)  # Streamlitで図を描画
