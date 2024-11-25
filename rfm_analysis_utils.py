@@ -40,8 +40,9 @@ def calculate_rfm(sales_data, item_data, category_data):
     rfm["Fスコア"] = pd.qcut(rfm["Frequency"], 4, labels=[1, 2, 3, 4])
     rfm["Mスコア"] = pd.qcut(rfm["Monetary"], 4, labels=[1, 2, 3, 4])
     rfm["RFMスコア"] = rfm["Rスコア"].astype(str) + rfm["Fスコア"].astype(str) + rfm["Mスコア"].astype(str)
-    rfm = rfm.merge(item_data[['商品ID', '商品カテゴリID']], on='商品ID').merge(category_data[['商品カテゴリID', '商品カテゴリ名']], on='商品カテゴリID')
-    return rfm
+    rfm_item = rfm.merge(item_data[['商品ID', '商品カテゴリID']], on='商品ID', how='left').rename(columns={'商品カテゴリID_x': '商品カテゴリID'}).drop(columns=['商品カテゴリID_y'])
+    rfm_full = rfm_item.merge(category_data[['商品カテゴリID', '商品カテゴリ名']], on='商品カテゴリID').rename(columns={'商品カテゴリ名_x': '商品カテゴリ名'}).drop(columns=['商品カテゴリ名_y'])
+    return rfm_full
 
 def visualize_rfm_heatmap(rfm_analysis_data, save_path=None):
     rfm_pivot = rfm_analysis_data.pivot_table(
