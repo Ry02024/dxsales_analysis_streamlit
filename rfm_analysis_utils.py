@@ -17,6 +17,8 @@ def process_data(sales_history_df, item_categories_df, category_names_df):
     print("可視化のための処理を開始します...")
     join_data_df = pd.merge(sales_history_df, item_categories_df, on='商品ID', how='left')
     join_data_df = pd.merge(join_data_df, category_names_df, on='商品カテゴリID', how='left')
+    # 商品カテゴリ名から大項目を抽出
+    join_data_df["大項目"] = join_data_df["商品カテゴリ名"].str.split(" - ").str[0]
     join_data_df = join_data_df.drop_duplicates()
 
     print("データの前処理が完了しました。")
