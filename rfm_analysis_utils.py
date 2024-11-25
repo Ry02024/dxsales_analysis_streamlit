@@ -24,7 +24,7 @@ def process_data(sales_history_df, item_categories_df, category_names_df):
     print("データの前処理が完了しました。")
     return join_data_df
     
-def calculate_rfm(sales_data):
+def calculate_rfm(sales_data, item_data, category_data):
     sales_data["購入日"] = pd.to_datetime(sales_data["日付"])
     reference_date = sales_data["購入日"].max()
     
@@ -40,7 +40,7 @@ def calculate_rfm(sales_data):
     rfm["Fスコア"] = pd.qcut(rfm["Frequency"], 4, labels=[1, 2, 3, 4])
     rfm["Mスコア"] = pd.qcut(rfm["Monetary"], 4, labels=[1, 2, 3, 4])
     rfm["RFMスコア"] = rfm["Rスコア"].astype(str) + rfm["Fスコア"].astype(str) + rfm["Mスコア"].astype(str)
-    
+    rfm = rfm.merge(item_data[['商品ID', '商品カテゴリID']], on='商品ID').merge(category_data[['商品カテゴリID', '商品カテゴリ名']], on='商品カテゴリID')
     return rfm
 
 def visualize_rfm_heatmap(rfm_analysis_data, save_path=None):
