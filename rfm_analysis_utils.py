@@ -12,6 +12,16 @@ def load_data(data_dir):
 
     return sales_data, item_data, category_data, test_data
 
+# 可視化のための処理
+def process_data(sales_history_df, item_categories_df, category_names_df):
+    print("可視化のための処理を開始します...")
+    join_data_df = pd.merge(sales_history_df, item_categories_df, on='商品ID', how='left')
+    join_data_df = pd.merge(join_data_df, category_names_df, on='商品カテゴリID', how='left')
+    join_data_df = join_data_df.drop_duplicates()
+
+    print("データの前処理が完了しました。")
+    return join_data_df
+    
 def calculate_rfm(sales_data):
     sales_data["購入日"] = pd.to_datetime(sales_data["日付"])
     reference_date = sales_data["購入日"].max()
